@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "api-contract": {
+      "source": "shaul1991/shaul-agents-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/api-contract/SKILL.md",
+      "computedHash": "fb787686f09041bac91aab342ea6aafada8e9a28c671c62075ff91ca45414b33"
+    },
+    "api-designer": {
+      "source": "Jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/api-designer/SKILL.md",
+      "computedHash": "f4e40e39c463cf632b9ab12c85de52907c30b0bc83850824279b6b78dce3e85c"
+    },
+    "otel-collector": {
+      "source": "dash0hq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/otel-collector/SKILL.md",
+      "computedHash": "4d53a588ce45234518858f936712a02c05f3b38b028d82c0e3a595c24ca88353"
+    },
+    "otel-instrumentation": {
+      "source": "dash0hq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/otel-instrumentation/SKILL.md",
+      "computedHash": "3b0b08c8399aab53d7bbe49c0bc7e8c8304ae9a64dd5cca739de5f39941d73df"
+    },
+    "otel-ottl": {
+      "source": "dash0hq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/otel-ottl/SKILL.md",
+      "computedHash": "10b290b8a1cd0523769db66669c643ef60e53814a3ac0df4b878a983e5d4dadd"
+    },
+    "otel-semantic-conventions": {
+      "source": "dash0hq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/otel-semantic-conventions/SKILL.md",
+      "computedHash": "4c9a06b67b11192469e3ff809bb609550c245c18940bd21f144e7ca7e9adedcf"
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "agents": [
+    {
+      "agent_id": "aea97ac88a7659a57",
+      "agent_type": "Explore",
+      "started_at": "2026-06-10T22:54:27.097Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-10T22:56:54.428Z",
+      "duration_ms": 147331
+    },
+    {
+      "agent_id": "ab747e6c486bec208",
+      "agent_type": "Explore",
+      "started_at": "2026-06-10T22:54:28.981Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-10T22:57:31.012Z",
+      "duration_ms": 182031
+    },
+    {
+      "agent_id": "aadf3ef2104b83684",
+      "agent_type": "Explore",
+      "started_at": "2026-06-10T22:54:31.516Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-10T22:57:45.811Z",
+      "duration_ms": 194295
+    },
+    {
+      "agent_id": "acf5cee1f6bff23ec",
+      "agent_type": "Explore",
+      "started_at": "2026-06-10T23:07:46.020Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-10T23:09:11.949Z",
+      "duration_ms": 85929
+    },
+    {
+      "agent_id": "af687217a786a5530",
+      "agent_type": "Explore",
+      "started_at": "2026-06-10T23:27:56.592Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-10T23:29:18.757Z",
+      "duration_ms": 82165
+    },
+    {
+      "agent_id": "a16b18ae68bfce9e2",
+      "agent_type": "Explore",
+      "started_at": "2026-06-11T00:26:18.503Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-11T00:28:43.540Z",
+      "duration_ms": 145037
+    },
+    {
+      "agent_id": "aa527078555af1ec9",
+      "agent_type": "Explore",
+      "started_at": "2026-06-11T00:26:20.628Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-11T00:27:55.333Z",
+      "duration_ms": 94705
+    },
+    {
+      "agent_id": "a5c502c633ea3831a",
+      "agent_type": "Explore",
+      "started_at": "2026-06-11T00:26:24.079Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-11T00:27:37.557Z",
+      "duration_ms": 73478
+    }
+  ],
+  "total_spawned": 8,
+  "total_completed": 8,
+  "total_failed": 0,
+  "last_updated": "2026-06-11T00:28:43.670Z"
+}
