@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>引擎加速效果监控看板</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+body{background:#f0f4f8;color:#1e293b}
+.sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:#1e293b;color:#fff;padding:20px 0;z-index:10}
+.sidebar h2{padding:0 20px 20px;font-size:18px;border-bottom:1px solid #334155}
+.sidebar .nav-item{padding:12px 20px;cursor:pointer;transition:.2s;font-size:14px;border-left:3px solid transparent}
+.sidebar .nav-item:hover{background:#334155}
+.sidebar .nav-item.active{background:#334155;border-left-color:#2563eb;font-weight:600}
+.main{margin-left:220px;padding:20px 30px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.topbar h1{font-size:22px}
+.topbar .badge{padding:6px 14px;background:#2563eb;color:#fff;border-radius:20px;font-size:13px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.stat-card .label{font-size:12px;color:#64748b;margin-bottom:4px}
+.stat-card .value{font-size:26px;font-weight:700}
+.stat-card .change{font-size:12px;margin-top:4px}
+.stat-card .change.up{color:#10b981}
+.stat-card .change.down{color:#ef4444}
+.panels-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.panel{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.panel h3{font-size:14px;font-weight:600;margin-bottom:12px;color:#334155}
+.ring-wrap{display:flex;align-items:center;gap:16px}
+.ring{width:80px;height:80px;border-radius:50%;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18px;font-weight:700}
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:120px;padding-top:10px}
+.bar{flex:1;border-radius:4px 4px 0 0;min-width:20px;position:relative}
+.bar .bar-val{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:11px;color:#64748b}
+.hot-table{width:100%;border-collapse:collapse;font-size:13px}
+.hot-table td{padding:6px 8px;border-bottom:1px solid #f1f5f9}
+.hot-table td:last-child{text-align:right;color:#64748b}
+.config-group{margin-bottom:16px}
+.config-group label{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9;font-size:14px}
+.switch{position:relative;width:44px;height:24px;background:#cbd5e1;border-radius:12px;cursor:pointer;transition:.2s}
+.switch.on{background:#2563eb}
+.switch .knob{position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.2s}
+.switch.on .knob{left:22px}
+.switch.small{width:36px;height:20px}
+.switch.small .knob{width:16px;height:16px}
+.switch.small.on .knob{left:18px}
+.trend-line{display:flex;align-items:flex-end;gap:4px;height:80px;padding-top:8px}
+.trend-bar{width:16px;border-radius:3px 3px 0 0;min-width:12px;position:relative;background:#2563eb;opacity:.8}
+.trend-bar .day-label{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10px;color:#94a3b8;white-space:nowrap}
+.page{display:none}
+.page.active{display:block}
+@media(max-width:768px){
+  .sidebar{width:100%;height:auto;position:relative;padding:10px;display:flex;flex-wrap:wrap;gap:4px}
+  .sidebar h2{display:none}
+  .sidebar .nav-item{padding:6px 10px;font-size:12px}
+  .main{margin-left:0;padding:12px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .panels-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <h2>⚡ 加速看板</h2>
+  <div class="nav-item active" onclick="showPage('dashboard')">📊 总览</div>
+  <div class="nav-item" onclick="showPage('pruning')">✂️ 早起剪枝</div>
+  <div class="nav-item" onclick="showPage('cache')">💾 缓存</div>
+  <div class="nav-item" onclick="showPage('parallel')">🔀 并行</div>
+  <div class="nav-item" onclick="showPage('config')">⚙️ 引擎配置</div>
+</div>
+<div class="main">
+<div class="topbar">
+  <h1>⚡ 引擎加速效果监控看板</h1>
+  <span class="badge">系统运行正常 • 加速 5.6x</span>
+</div>
+
+<div id="page-dashboard" class="page active">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="label">平均计算时间</div>
+      <div class="value" style="color:#2563eb">8.2min</div>
+      <div class="change up">▼ 优化前 45min · 减少 82%</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">加速比</div>
+      <div class="value" style="color:#10b981">5.6x</div>
+      <div class="change up">▲ 较上周 +0.3x</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">本月已完成方案</div>
+      <div class="value" style="color:#1e293b">182</div>
+      <div class="change up">▲ 较上月 +47%</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">CPU 利用率</div>
+      <div class="value" style="color:#f59e0b">76%</div>
+      <div class="change">并行线程 4/8 核</div>
+    </div>
+  </div>
+
+  <div class="panels-grid">
+    <div class="panel">
+      <h3>📈 计算时间趋势（过去 14 天）</h3>
+      <div class="trend-line" id="trendChart"></div>
+    </div>
+    <div class="panel">
+      <h3>🔍 加速组件贡献度</h3>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        <div><div style="font-size:13px;margin-bottom:4px;display:flex;justify-content:space-between"><span>早起剪枝</span><span>-34% 迭代</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:34%;background:#2563eb;border-radius:4px"></div></div></div>
+        <div><div style="font-size:13px;margin-bottom:4px;display:flex;justify-content:space-between"><span>并行计算</span><span>-45% 时间</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:45%;background:#10b981;border-radius:4px"></div></div></div>
+        <div><div style="font-size:13px;margin-bottom:4px;display:flex;justify-content:space-between"><span>缓存复用</span><span>-12% 重复计算</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:12%;background:#f59e0b;border-radius:4px"></div></div></div>
+        <div><div style="font-size:13px;margin-bottom:4px;display:flex;justify-content:space-between"><span>编译优化</span><span>-15% 单次耗时</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:15%;background:#8b5cf6;border-radius:4px"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-pruning" class="page">
+  <div class="panels-grid">
+    <div class="panel">
+      <h3>✂️ 剪枝效果</h3>
+      <div class="ring-wrap">
+        <div class="ring">
+          <svg width="80" height="80"><circle cx="40" cy="40" r="34" fill="none" stroke="#e2e8f0" stroke-width="6"/><circle cx="40" cy="40" r="34" fill="none" stroke="#2563eb" stroke-width="6" stroke-dasharray="213.6" stroke-dashoffset="140.9"/></svg>
+          <div class="center">34%</div>
+        </div>
+        <div><div style="font-size:13px;color:#64748b;margin-bottom:2px">迭代淘汰率</div><div style="font-size:15px;font-weight:600">每方案平均提前跳过 4,200 次内层调用</div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>📋 Reject 原因分布</h3>
+      <div style="margin-top:8px">
+        <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>磁通密度 CT 超限</span><span>32%</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:32%;background:#ef4444;border-radius:4px"></div></div></div>
+        <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>低压绕线高度 LVRH 超限</span><span>28%</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:28%;background:#f59e0b;border-radius:4px"></div></div></div>
+        <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>高压绕线高度 HVRH 超限</span><span>19%</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:19%;background:#f59e0b;border-radius:4px"></div></div></div>
+        <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>阻抗 UK 不满足</span><span>12%</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:12%;background:#2563eb;border-radius:4px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:13px"><span>温升超限</span><span>9%</span></div><div style="height:8px;background:#e2e8f0;border-radius:4px"><div style="height:8px;width:9%;background:#10b981;border-radius:4px"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-cache" class="page">
+  <div class="panels-grid">
+    <div class="panel">
+      <h3>💾 缓存命中率</h3>
+      <div class="ring-wrap">
+        <div class="ring">
+          <svg width="80" height="80"><circle cx="40" cy="40" r="34" fill="none" stroke="#e2e8f0" stroke-width="6"/><circle cx="40" cy="40" r="34" fill="none" stroke="#10b981" stroke-width="6" stroke-dasharray="213.6" stroke-dashoffset="164.5"/></svg>
+          <div class="center">23%</div>
+        </div>
+        <div><div style="font-size:13px;color:#64748b">缓存容量 20,000 条</div><div style="font-size:13px;color:#64748b;margin-top:4px">近 10min 命中 142 次</div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>🔥 热点 Key Top-5</h3>
+      <table class="hot-table">
+        <tr><td><strong>B30P105</strong> · CRGOD=370 · LVT=12</td><td>8 次</td></tr>
+        <tr><td><strong>B30P105</strong> · CRGOD=380 · LVT=11</td><td>6 次</td></tr>
+        <tr><td><strong>23ZH90</strong> · CRGOD=350 · LVT=14</td><td>5 次</td></tr>
+        <tr><td><strong>B30P105</strong> · CRGOD=360 · LVT=13</td><td>4 次</td></tr>
+        <tr><td><strong>23ZH90</strong> · CRGOD=390 · LVT=10</td><td>3 次</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="page-parallel" class="page">
+  <div class="panels-grid">
+    <div class="panel">
+      <h3>🔀 并行执行状态</h3>
+      <div style="display:flex;gap:20px;margin-top:8px">
+        <div><div style="font-size:12px;color:#64748b">状态</div><div style="font-size:18px;font-weight:600;color:#10b981">● 运行中</div></div>
+        <div><div style="font-size:12px;color:#64748b">线程数</div><div style="font-size:18px;font-weight:600">4</div></div>
+        <div><div style="font-size:12px;color:#64748b">任务队列</div><div style="font-size:18px;font-weight:600">0</div></div>
+        <div><div style="font-size:12px;color:#64748b">今日失败率</div><div style="font-size:18px;font-weight:600;color:#10b981">0.0%</div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>🕐 CRGOD 候选值并行示意图</h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <div style="padding:8px 12px;background:#2563eb;color:#fff;border-radius:6px;font-size:12px">CRGOD=350<br><span style="font-size:10px;opacity:.8">Thread-1 ✅ 完成</span></div>
+        <div style="padding:8px 12px;background:#2563eb;color:#fff;border-radius:6px;font-size:12px">CRGOD=360<br><span style="font-size:10px;opacity:.8">Thread-2 ✅ 完成</span></div>
+        <div style="padding:8px 12px;background:#2563eb;color:#fff;border-radius:6px;font-size:12px">CRGOD=370<br><span style="font-size:10px;opacity:.8">Thread-3 ✅ 完成</span></div>
+        <div style="padding:8px 12px;background:#10b981;color:#fff;border-radius:6px;font-size:12px">CRGOD=380<br><span style="font-size:10px;opacity:.8">Thread-4 ⏳ 计算中</span></div>
+        <div style="padding:8px 12px;background:#94a3b8;color:#fff;border-radius:6px;font-size:12px">CRGOD=390<br><span style="font-size:10px;opacity:.8">等待中 ⏰</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-config" class="page">
+  <div class="panels-grid" style="grid-template-columns:1fr">
+    <div class="panel">
+      <h3>⚙️ 引擎配置</h3>
+      <div class="config-group">
+        <label>
+          <span><strong>早起剪枝</strong><br><span style="font-size:12px;color:#64748b">将 CT 验证提前到第 2 层，减少无效深度迭代</span></span>
+          <div class="switch on" onclick="this.classList.toggle('on')"><div class="knob"></div></div>
+        </label>
+        <label>
+          <span><strong>缓存复用</strong><br><span style="font-size:12px;color:#64748b">Guava Cache 缓存基础参数组合的中间结果</span></span>
+          <div class="switch on" onclick="this.classList.toggle('on')"><div class="knob"></div></div>
+        </label>
+        <label>
+          <span><strong>并行计算</strong><br><span style="font-size:12px;color:#64748b">CRGOD 维度 ForkJoinPool 并行执行</span></span>
+          <div class="switch on" onclick="this.classList.toggle('on')"><div class="knob"></div></div>
+        </label>
+        <label>
+          <span><strong>自动降级</strong><br><span style="font-size:12px;color:#64748b">异常时自动关闭并行，回退到单线程</span></span>
+          <div class="switch on" onclick="this.classList.toggle('on')"><div class="knob"></div></div>
+        </label>
+      </div>
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #e2e8f0">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;color:#64748b">缓存容量</span>
+          <span style="font-weight:600">20,000 条</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <span style="font-size:13px;color:#64748b">并行线程数</span>
+          <span style="font-weight:600">4（自动）</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <span style="font-size:13px;color:#64748b">当前引擎版本</span>
+          <span style="font-weight:600">v2.0.3</span>
+        </div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:8px">
+        <div style="padding:8px 16px;background:#2563eb;color:#fff;border-radius:8px;font-size:13px;cursor:pointer" onclick="alert('保存成功')">保存配置</div>
+        <div style="padding:8px 16px;background:#e2e8f0;border-radius:8px;font-size:13px;cursor:pointer" onclick="alert('已还原到上次保存的配置')">还原默认</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>{if(n.textContent.includes(document.querySelector('#'+id+' h3')?.textContent.slice(2)||'总览'))n.classList.add('active')});
+}
+// 手动 active nav
+document.querySelectorAll('.nav-item').forEach(n=>n.onclick=function(){
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  this.classList.add('active');
+  const map={'📊 总览':'dashboard','✂️ 早起剪枝':'pruning','💾 缓存':'cache','🔀 并行':'parallel','⚙️ 引擎配置':'config'};
+  for(let k in map) if(this.textContent.includes(k)) showPage(map[k]);
+});
+(function renderTrend(){
+  const data=[45,42,38,36,30,25,18,14,12,11,9,8,8,7];
+  const c=document.getElementById('trendChart');
+  if(!c)return;
+  const mx=Math.max(...data);
+  c.innerHTML=data.map((v,i)=>`<div class="trend-bar" style="height:${(v/mx)*70}px;background:${i===data.length-1?'#10b981':'#2563eb'}" title="${v}min"><span class="day-label">D${i+1}</span></div>`).join('');
+})();
+</script>
+</body>
+</html>
