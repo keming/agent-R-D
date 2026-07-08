@@ -1,0 +1,143 @@
+
+============================================================
+QUERY: transformer pricing software CPQ
+============================================================
+  URL: https://www.guideflow.com/blog/best-cpq-software
+  TITLE: 13 best CPQ software tools and platforms for 2026
+  SNIPPET: Mar 4, 2026 · CPQ software automates the configure, price, and quote process so teams can generate accurate proposals in minutes instead of days. This guide covers 13 CPQ platforms across enterprise, 
+
+  URL: https://www.cincom.com/blog/cpq/best-cpq-tools/
+  TITLE: 8 Best CPQ Tools for 2026: Compare Features & Benefits
+  SNIPPET: May 7, 2026 · Discover the 8 best CPQ tools for 2026. Compare features, pricing, integrations, and benefits to choose the right CPQ software for your business.
+
+  URL: https://www.capterra.com/cpq-software/
+  TITLE: Best CPQ Software 2026 | Capterra
+  SNIPPET: Find the top CPQ software of 2026 on Capterra. Based on millions of verified user reviews - compare and filter for whats important to you to find the best tools for your needs.
+
+  URL: https://gitnux.org/best/cpq-software/
+  TITLE: Top 10 Best Cpq Software (2026 Review) - gitnux.org
+  SNIPPET: Jun 10, 2026 · Top 10 Cpq Software options ranked for configure-price-quote workflows. Compare Salesforce CPQ, Oracle CPQ Cloud, and SAP Sales CPQ. Explore picks.
+
+  URL: https://hivecpq.com/en
+  TITLE: Grow with Configure, Price, Quote SaaS | Hive CPQ
+  SNIPPET: Simplify the way you sell complex products with our AI-driven Configure Price Quote software. Move faster with seamless configuration, accurate pricing and consistent quotes, every time.
+
+  URL: https://croclub.com/tools/best-cpq-software/
+  TITLE: 10 Best CPQ Software Reviewed For 2026 - The RevOps Team
+  SNIPPET: 5 days ago · Tired of spending too much time on quotes and dealing with errors in your configurations? We hear you. That’s why we’ve reviewed the 24 best CPQ software solutions for 2026, so you can fi
+
+  URL: https://revalizesoftware.com/electrical-equipment-software/
+  TITLE: Electrical Equipment CPQ Software for Manufacturers - Revalize
+  SNIPPET: Thus, leveraging a robust Configure, Price, and Quoting (CPQ) electrical equipment software solution becomes indispensable for manufacturers seeking to enhance ...
+
+  URL: https://wapice.com/wapice-news/what-is-cpq/
+  TITLE: What is CPQ? - Wapice
+  SNIPPET: Jan 9, 2026 ... CPQ software automates product configuration, pricing, and quote generation ... Visual design tool for supporting the sale of transformer ...
+
+
+============================================================
+QUERY: transformer configure price quote
+============================================================
+  URL: https://mgmtransformers.com/configurator/
+  TITLE: Transformer Calculator & Configurator | MGM Transformers
+  SNIPPET: Size your transformer in seconds: calculate kVA, full-load amps and voltage for 1- or 3-phase units, generate a catalog code, and get a quote.
+
+  URL: https://appliedcontrolinc.com/2026/04/25/what-information-is-needed-to-quote-a-transformer/
+  TITLE: What Information Is Needed to Quote a Transformer - ACI
+  SNIPPET: Apr 25, 2026 · Learn what specifications and project details are typically needed to quote a transformer accurately for industrial and commercial applications.
+
+  URL: https://elecbase.net/transformer-cost-breakdown-an-engineers-2025-price-guide/
+  TITLE: Transformer Cost Breakdown: An Engineer’s 2025 Price Guide
+  SNIPPET: Wondering about transformer prices? Our 2025 guide breaks down costs for distribution & substation transformers by kVA/MVA, materials (copper/aluminum), and features. Get the realistic budget estimate
+
+  URL: https://fluxco.com/get-quote
+  TITLE: Request a Transformer Quote | RFQ | Fluxco | Fluxco
+  SNIPPET: Submit a transformer RFQ and get quotes from 100+ global suppliers in one step. Padmount, substation, distribution, and dry-type transformers with competitive lead times.
+
+  URL: https://solarasiapv.com/transformer-quote/
+  TITLE: Transformer Quote Explained: Pricing, RFQ & Supplier Tips
+  SNIPPET: May 19, 2026 · This guide explains how to get the best transformer quote from manufacturers, what information suppliers need, how transformer pricing is calculated, and how buyers can compare quotatio
+
+  URL: https://panelshop.com/project/transformers/
+  TITLE: Transformers - PanelShop.com
+  SNIPPET: Once you have completed the design of your Hammond Transformer, the PanelShop.com configurator displays your configuration along with a quotation, unique configured part number, and drawings.
+
+  URL: https://www.maddox.com/build-a-quote
+  TITLE: Build A Quote | Maddox Transformer
+  SNIPPET: Need an electrical transformer? Get a quote that fits your personal needs. Maddox is proud to offer the largest selection of in stock transformers in the US.
+
+  URL: https://www.rexpowermagnetics.com/get-a-quote/
+  TITLE: Get a quote - Rex Power Magnetics
+  SNIPPET: RAPID QUOTE REQUEST ... Configure Custom Product. OR. Product: Autotransformer, Control Power Transformer, Drive Isolation Transformer, Encapsulated Transformer ...
+
+
+============================================================
+QUERY: AI quotation transformer distribution
+============================================================
+  URL: https://en.wikipedia.org/wiki/Attention_Is_All_You_Need
+  TITLE: Attention Is All You Need - Wikipedia
+  SNIPPET: Each attention head learns different linear projections of the Q, K, and V matrices. This allows the model to capture different aspects of the relationships between words in the sequence simultaneousl
+
+  URL: https://www.yicaiglobal.com/news/china-logs-record-transformer-exports-driven-by-ai-computing-boom
+  TITLE: China Logs Record Transformer Exports Driven by AI Computing Boom
+  SNIPPET: Mar 12, 2026 · (Yicai) March 12 -- China's exports of transformers, a key power equipment component, soared to a record high last year thanks to the explosive growth of artificial intelligence computi
+
+  URL: https://estimatequote.org/
+  TITLE: EstimateQuote - AI Quotation & Proposal Software ...
+  SNIPPET: AI-powered quotation and proposal software for contractors, agencies, and service businesses. Generate professional BOQs, branded PDFs, and one-tap email or WhatsApp delivery — anywhere in the world.
+
+  URL: https://www.gigaenergy.com/blog/data-center-power-distribution
+  TITLE: Understanding data center power distribution: Key elements ...
+  SNIPPET: In reality, that process is the entire backbone of your data center build. If you want to build and operate your AI data center as effectively and efficiently as possible, you need to start with a sol
+
+  URL: https://www.gigaenergy.com/blog/transformer-price-ranges
+  TITLE: Transformer price ranges: Budget for your AI factory build
+  SNIPPET: May 19, 2026 ... Distribution units are often priced under $100,000, whereas large, high-voltage substation units can push past $1 million. Your price depends ...
+
+  URL: https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/elp2.70011
+  TITLE: Predictive AI Maintenance of Distribution Oil‐Immersed Transformer ...
+  SNIPPET: Feb 25, 2025 ... Recent developments in predictive maintenance of distribution power transformers have made great strides, but to solve the current challenge of ...
+
+  URL: https://www.scribd.com/doc/193760605/Quotation-for-500-630-KVA-transformers
+  TITLE: Transformer Quotations for 500 & 630 KVA | PDF - Scribd
+  SNIPPET: Quotation for 500 KVA Transformer; Quotation for 630 KVA Transformer. Narsinha Engineering Works. Manufacturer & Repairers of Power & Distribution Transformers.
+
+  URL: https://digital-library.theiet.org/doi/full/10.1049/elp2.70011
+  TITLE: Predictive AI Maintenance of Distribution Oil‐Immersed Transformer ...
+  SNIPPET: This approach leverages deep neural networks that provide a comprehensive diagnostic and prognostic approach to mitigate transformer faults and breakdowns.
+
+
+============================================================
+QUERY: 电力设备 报价系统 变压器 行业
+============================================================
+  URL: https://cj.sina.com.cn/articles/view/7962326780/1da9776fc00101669i
+  TITLE: 2025年中国变压器产业链图谱及投资布局分析（附产业链全景图）
+  SNIPPET: 变压器是利用电磁感应的原理来改变交流电压的装置，包括运行在主干电网的电力变压器和运行在终端的配电变压器两大部分。 中商产业研究院发布的《2025-2030年中国变压器行业发展研究报告》显示，2024年中国变压器行业总产量预计达到1.95万亿伏安，同比增长 ...
+
+  URL: https://zhuanlan.zhihu.com/p/1945600057144502169
+  TITLE: 中国电力变压器行业报告(2025) - 知乎
+  SNIPPET: 中国电力变压器行业报告(2025)变压器分类与应用电力变压器是利用电磁感应原理将一种电压等级的交流电变换为另一种电压等级的静止电气设备，是输配电系统中的核心组件。根据用途和结构形式，电力变压器可分为以下主…
+
+  URL: https://cj.sina.com.cn/articles/view/7962326780/1da9776fc001016bqk
+  TITLE: 2025年中国电力设备行业市场前景预测研究报告（简版）
+  SNIPPET: 中商产业研究院发布的《2025-2030年中国电力设备行业深度挖掘及投资决策分析报告》显示，2024年全国变压器总产量达到约19.5亿kVA，较2023年增加11%。 其中，高压变压器（66kV及以上）产量12.83亿kVA， 配电变压器（35kV及以下）产量6.45亿kVA。
+
+  URL: https://www.huaon.com/channel/trend/1075410.html
+  TITLE: 2025年中国电力设备行业现状与竞争格局分析，朝着智能化、高效化、绿色化的方向发展「图」_华经情报网_华经产业研究院
+  SNIPPET: 华经产业研究院对中国电力设备行业发展现状、市场供需情况等进行了详细分析，对行业上下游产业链、企业竞争格局等进行了深入剖析，最大限度地降低企业投资风险与经营成本，提高企业竞争力；并运用多种数据分析技术，对行业发展趋势进行预测，以便 ...
+
+  URL: https://www.sohu.com/a/1044300222_209020
+  TITLE: 电力设备行业景气上行，变压器、开关等出口订单饱满 | 睿信咨询产业研究_中国电力_企业_市场
+  SNIPPET: 04 展望 当前，中国电力设备出海正迎来黄金发展期。 国际电力设备龙头表现强劲，中韩出口数据持续高增长，高压设备出口有望长周期保持高景气。 供需错配短期难以缓解。 全球大型电力变压器供需缺口高达30%，本土主变交期普遍长达2至3年。
+
+  URL: https://xueqiu.com/6798335065/389724332
+  TITLE: 电力设备之电网设备行业分析框架（2026 版） 为了帮助您全面、深入地理解电力设备板块中最核心的电网设备行业（输变电及配电自动化装备），结合 ...
+  SNIPPET: 为了帮助您全面、深入地理解电力设备板块中最核心的电网设备行业（输变电及配电自动化装备），结合2025—2026年全球 新型电力系统 建设、海外电网老旧更新以及AI数据中心爆发带来的“能源基建超级大周期”，从以下九个维度为您进行穿透式系统分析：1. 基本面与生命周期行业未来总体空间...
+
+  URL: https://bg.qianzhan.com/report/detail/300/231122-3bee03ba.html
+  TITLE: 2023年中国电力变压器行业市场现状、竞争格局及发展趋势分析 中国电力变压器产量波动变化_研究报告 - 前瞻产业研究院
+  SNIPPET: 电力变压器行业分析报告：电力变压器是输配电的基础设备，广泛应用于工业、农业、交通、城市社区等领域。 经过多年的发展，2022年我国电力变压器产量约17亿千伏安左右。
+
+  URL: https://xueqiu.com/2742293229/376083214
+  TITLE: 电力设备公司订单排名前十 根据2025年国家电网招标数据及行业公开信息，A股电力设备板块订单排名前十的公司主要集中在特高压、变压器、电网自动化 ...
+  SNIPPET: 根据2025年国家电网招标数据及行业公开信息，A股电力设备板块订单排名前十的公司主要集中在特高压、变压器、电网自动化等核心领域。以下是具体榜单及核心看点：🏆 2025年A股电力设备订单TOP10排名 公司名称 核心看点 订单/中标情况1 中国西电 特高压核心供应商 2025年国网中...
