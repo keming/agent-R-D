@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>知微·大仪智能体 交互原型</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:#f0f4f8;color:#1e293b;font-size:14px;display:flex;height:100vh}
+/* Sidebar */
+.sidebar{width:220px;background:#1e293b;color:#fff;display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-header{padding:20px 16px;border-bottom:1px solid #334155}
+.sidebar-header h2{font-size:16px;font-weight:600;color:#fff}
+.sidebar-header span{font-size:11px;color:#94a3b8}
+.sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;color:#cbd5e1;font-size:13px;transition:.2s;border-left:3px solid transparent}
+.nav-item:hover{background:#334155;color:#fff}
+.nav-item.active{background:#334155;color:#fff;border-left-color:#2563eb}
+.nav-icon{width:18px;text-align:center;font-size:16px}
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0;flex-shrink:0}
+.topbar-title{font-size:16px;font-weight:600}
+.topbar-info{display:flex;align-items:center;gap:16px;font-size:12px;color:#64748b}
+.topbar-badge{background:#2563eb;color:#fff;padding:2px 10px;border-radius:12px;font-size:11px}
+.content{flex:1;overflow-y:auto;padding:24px}
+.page{display:none}
+.page.active{display:block}
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card-label{font-size:12px;color:#64748b;margin-bottom:4px}
+.card-value{font-size:28px;font-weight:700;margin-bottom:2px}
+.card-delta{font-size:12px}
+.card-delta.up{color:#10b981}
+.card-delta.down{color:#ef4444}
+/* Table */
+.table-wrap{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow-x:auto;margin-bottom:24px}
+.table-wrap h3{font-size:14px;font-weight:600;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#f8fafc;padding:10px 12px;text-align:left;font-weight:600;color:#475569;border-bottom:2px solid #e2e8f0;font-size:12px}
+td{padding:10px 12px;border-bottom:1px solid #f1f5f9}
+tr:hover{background:#f8fafc}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.status-dot.green{background:#10b981}
+.status-dot.yellow{background:#f59e0b}
+.status-dot.red{background:#ef4444}
+.badge{padding:2px 10px;border-radius:12px;font-size:11px;font-weight:500}
+.badge-green{background:#dcfce7;color:#166534}
+.badge-yellow{background:#fef3c7;color:#92400e}
+.badge-red{background:#fee2e2;color:#991b1b}
+.badge-blue{background:#dbeafe;color:#1e40af}
+.btn{background:#2563eb;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer}
+.btn:hover{background:#1d4ed8}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-outline{background:#fff;color:#2563eb;border:1px solid #2563eb}
+/* Health ring */
+.health-ring{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.ring-card{background:#fff;border-radius:10px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06);width:140px}
+.ring-card .ring-label{font-size:11px;color:#64748b;margin-top:8px}
+.ring-card .ring-name{font-size:13px;font-weight:600;margin-top:2px}
+svg.ring{width:80px;height:80px;transform:rotate(-90deg)}
+svg.ring circle{fill:none;stroke-width:6}
+svg.ring .bg{stroke:#e2e8f0}
+svg.ring .bar{stroke-linecap:round;transition:stroke-dashoffset 1s}
+/* Bar chart */
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:120px;padding:0 8px;margin-bottom:6px}
+.chart-bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.chart-bar .bar{width:100%;max-width:36px;border-radius:4px 4px 0 0;min-height:4px;transition:.3s}
+.chart-bar .bar-label{font-size:10px;color:#64748b;margin-top:4px;white-space:nowrap}
+/* Alert list */
+.alert-list{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:24px}
+.alert-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #f1f5f9}
+.alert-item:last-child{border-bottom:none}
+.alert-level{width:6px;height:40px;border-radius:3px;flex-shrink:0}
+.alert-level.red{background:#ef4444}
+.alert-level.yellow{background:#f59e0b}
+.alert-level.blue{background:#3b82f6}
+.alert-info{flex:1}
+.alert-info .alert-title{font-size:13px;font-weight:600}
+.alert-info .alert-detail{font-size:11px;color:#64748b;margin-top:2px}
+.alert-time{font-size:11px;color:#94a3b8}
+/* Section title */
+.section-title{font-size:15px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+/* Tabs */
+.tabs{display:flex;gap:0;margin-bottom:16px;background:#fff;border-radius:8px;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.tab{padding:8px 16px;font-size:13px;cursor:pointer;border-radius:6px;color:#64748b;transition:.2s}
+.tab.active{background:#2563eb;color:#fff}
+.tab:hover:not(.active){background:#f1f5f9}
+/* Form */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;background:#fff}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+/* Report card */
+.report-card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.report-card h4{font-size:14px;font-weight:600;margin-bottom:8px}
+.report-card .report-meta{font-size:12px;color:#64748b;margin-bottom:8px}
+.report-card .report-conclusion{padding:12px;border-radius:6px;font-size:13px;font-weight:500}
+.report-card .report-conclusion.ok{background:#dcfce7;color:#166534}
+.report-card .report-conclusion.warn{background:#fef3c7;color:#92400e}
+/* Grid 2 */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+/* Responsive */
+@media(max-width:768px){
+.sidebar{width:60px}
+.sidebar-header h2,.sidebar-header span,.nav-item span{display:none}
+.nav-item{justify-content:center;padding:12px}
+.cards{grid-template-columns:1fr}
+.grid-2{grid-template-columns:1fr}
+.form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h2>知微·大仪</h2>
+    <span>智能体管理平台</span>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-item active" data-page="dashboard"><span class="nav-icon">📊</span><span>总览看板</span></div>
+    <div class="nav-item" data-page="health"><span class="nav-icon">❤️</span><span>健康预警</span></div>
+    <div class="nav-item" data-page="performance"><span class="nav-icon">📈</span><span>绩效评价</span></div>
+    <div class="nav-item" data-page="purchase"><span class="nav-icon">🛒</span><span>购置决策</span></div>
+    <div class="nav-item" data-page="insurance"><span class="nav-icon">🛡️</span><span>健康保</span></div>
+    <div class="nav-item" data-page="reports"><span class="nav-icon">📄</span><span>报表中心</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title">知微·大仪智能体</div>
+    <div class="topbar-info">
+      <span>📅 2026-07-08</span>
+      <span>👤 实验室处·管理员</span>
+      <span class="topbar-badge">数据已更新</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== Page: Dashboard ===== -->
+    <div class="page active" id="page-dashboard">
+      <div class="section-title">📊 管理驾驶舱</div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-label">闲置率 > 30% 仪器数</div>
+          <div class="card-value" style="color:#ef4444">6</div>
+          <div class="card-delta down">↑ 较上月增加 2 台</div>
+        </div>
+        <div class="card">
+          <div class="card-label">高风险故障仪器数</div>
+          <div class="card-value" style="color:#f59e0b">3</div>
+          <div class="card-delta up">↓ 较上月减少 1 台</div>
+        </div>
+        <div class="card">
+          <div class="card-label">当月使用率环比</div>
+          <div class="card-value" style="color:#10b981">+3.2%</div>
+          <div class="card-delta up">↑ 较上月提升</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <h3>仪器总览</h3>
+        <table>
+          <tr><th>学院</th><th>仪器名称</th><th>当月使用率</th><th>健康指数</th><th>闲置天数</th><th>操作</th></tr>
+          <tr><td>电子信息学院</td><td>SEM扫描电镜</td><td><span class="status-dot green"></span>78%</td><td><span class="badge badge-green">85</span></td><td>3</td><td><button class="btn btn-sm" onclick="alert('SEM详情：78%使用率，健康指数85，近30天无故障记录')">详情</button></td></tr>
+          <tr><td>材料与环境学院</td><td>XRD衍射仪</td><td><span class="status-dot red"></span>22%</td><td><span class="badge badge-green">92</span></td><td>45</td><td><button class="btn btn-sm" onclick="alert('XRD详情：22%使用率，健康指数92，闲置45天')">详情</button></td></tr>
+          <tr><td>计算机学院</td><td>GPU集群</td><td><span class="status-dot green"></span>95%</td><td><span class="badge badge-yellow">72</span></td><td>0</td><td><button class="btn btn-sm" onclick="alert('GPU集群详情：95%使用率，健康指数72，需关注')">详情</button></td></tr>
+          <tr><td>理学院</td><td>核磁共振波谱仪</td><td><span class="status-dot yellow"></span>45%</td><td><span class="badge badge-red">48</span></td><td>12</td><td><button class="btn btn-sm" onclick="alert('核磁共振详情：45%使用率，健康指数48，危险')">详情</button></td></tr>
+          <tr><td>生命科学学院</td><td>流式细胞仪</td><td><span class="status-dot green"></span>67%</td><td><span class="badge badge-green">88</span></td><td>5</td><td><button class="btn btn-sm" onclick="alert('流式细胞仪详情')">详情</button></td></tr>
+          <tr><td>材料与环境学院</td><td>透射电镜TEM</td><td><span class="status-dot red"></span>15%</td><td><span class="badge badge-yellow">76</span></td><td>60</td><td><button class="btn btn-sm" onclick="alert('TEM详情')">详情</button></td></tr>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="table-wrap">
+          <h3>近12月使用率趋势</h3>
+          <div class="chart-bars">
+            <div class="chart-bar"><div class="bar" style="height:60%;background:#2563eb"></div><div class="bar-label">8月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:55%;background:#2563eb"></div><div class="bar-label">9月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:70%;background:#2563eb"></div><div class="bar-label">10月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:65%;background:#2563eb"></div><div class="bar-label">11月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:58%;background:#2563eb"></div><div class="bar-label">12月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:72%;background:#2563eb"></div><div class="bar-label">1月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:68%;background:#2563eb"></div><div class="bar-label">2月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:75%;background:#2563eb"></div><div class="bar-label">3月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:80%;background:#2563eb"></div><div class="bar-label">4月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:73%;background:#2563eb"></div><div class="bar-label">5月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:78%;background:#10b981"></div><div class="bar-label">6月</div></div>
+            <div class="chart-bar"><div class="bar" style="height:82%;background:#10b981"></div><div class="bar-label">7月</div></div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <h3>各学院使用率排行</h3>
+          <div class="chart-bars" style="height:100px">
+            <div class="chart-bar"><div class="bar" style="height:100%;background:#2563eb"></div><div class="bar-label">计算机</div></div>
+            <div class="chart-bar"><div class="bar" style="height:82%;background:#2563eb"></div><div class="bar-label">电子</div></div>
+            <div class="chart-bar"><div class="bar" style="height:70%;background:#f59e0b"></div><div class="bar-label">生科</div></div>
+            <div class="chart-bar"><div class="bar" style="height:52%;background:#f59e0b"></div><div class="bar-label">理学</div></div>
+            <div class="chart-bar"><div class="bar" style="height:30%;background:#ef4444"></div><div class="bar-label">材环</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Page: Health ===== -->
+    <div class="page" id="page-health">
+      <div class="section-title">❤️ 健康指数与预警</div>
+
+      <div class="health-ring">
+        <div class="ring-card">
+          <svg class="ring" viewBox="0 0 40 40">
+            <circle class="bg" cx="20" cy="20" r="16"/>
+            <circle class="bar" cx="20" cy="20" r="16" stroke="#10b981" stroke-dasharray="100.53" stroke-dashoffset="15.08"/>
+          </svg>
+          <div class="ring-label">健康指数</div>
+          <div class="ring-name" style="color:#10b981">GPU集群</div>
+        </div>
+        <div class="ring-card">
+          <svg class="ring" viewBox="0 0 40 40">
+            <circle class="bg" cx="20" cy="20" r="16"/>
+            <circle class="bar" cx="20" cy="20" r="16" stroke="#f59e0b" stroke-dasharray="100.53" stroke-dashoffset="35.19"/>
+          </svg>
+          <div class="ring-label">健康指数</div>
+          <div class="ring-name" style="color:#f59e0b">TEM</div>
+        </div>
+        <div class="ring-card">
+          <svg class="ring" viewBox="0 0 40 40">
+            <circle class="bg" cx="20" cy="20" r="16"/>
+            <circle class="bar" cx="20" cy="20" r="16" stroke="#ef4444" stroke-dasharray="100.53" stroke-dashoffset="65.34"/>
+          </svg>
+          <div class="ring-label">健康指数</div>
+          <div class="ring-name" style="color:#ef4444">核磁共振</div>
+        </div>
+        <div class="ring-card">
+          <svg class="ring" viewBox="0 0 40 40">
+            <circle class="bg" cx="20" cy="20" r="16"/>
+            <circle class="bar" cx="20" cy="20" r="16" stroke="#10b981" stroke-dasharray="100.53" stroke-dashoffset="5.03"/>
+          </svg>
+          <div class="ring-label">健康指数</div>
+          <div class="ring-name" style="color:#10b981">SEM</div>
+        </div>
+      </div>
+
+      <div class="alert-list">
+        <div class="alert-item">
+          <div class="alert-level red"></div>
+          <div class="alert-info">
+            <div class="alert-title">🔴 核磁共振波谱仪 — 故障高风险</div>
+            <div class="alert-detail">健康指数48分，运行参数偏移超过基线35%，建议立即安排检修</div>
+          </div>
+          <div class="alert-time">10分钟前</div>
+          <button class="btn btn-sm btn-outline" onclick="alert('已确认收到预警')">确认收到</button>
+        </div>
+        <div class="alert-item">
+          <div class="alert-level yellow"></div>
+          <div class="alert-info">
+            <div class="alert-title">🟡 GPU集群 — 需关注</div>
+            <div class="alert-detail">健康指数72分，连续运行时长超过建议阈值，建议安排维护窗口</div>
+          </div>
+          <div class="alert-time">2小时前</div>
+          <button class="btn btn-sm btn-outline" onclick="alert('已确认收到预警')">确认收到</button>
+        </div>
+        <div class="alert-item">
+          <div class="alert-level blue"></div>
+          <div class="alert-info">
+            <div class="alert-title">🔵 流式细胞仪 — 近期需关注</div>
+            <div class="alert-detail">健康指数88分，振动传感器信号偶发偏移，建议本周检查</div>
+          </div>
+          <div class="alert-time">1天前</div>
+          <button class="btn btn-sm btn-outline" onclick="alert('已确认收到预警')">确认收到</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Page: Performance ===== -->
+    <div class="page" id="page-performance">
+      <div class="section-title">📈 学院绩效评价</div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="selectPerfTab(this,'table')">绩效排名</div>
+        <div class="tab" onclick="selectPerfTab(this,'radar')">雷达图</div>
+      </div>
+
+      <div id="perf-table">
+        <div class="table-wrap">
+          <h3>2025-2026学年 学院大仪管理绩效排名</h3>
+          <table>
+            <tr><th>排名</th><th>学院</th><th>综合得分</th><th>使用率</th><th>共享率</th><th>故障率</th><th>产出成果</th><th>与上期</th><th>操作</th></tr>
+            <tr><td>🥇 1</td><td>计算机学院</td><td>88</td><td>35</td><td>20</td><td>18</td><td>15</td><td><span style="color:#10b981">↑ +3</span></td><td><button class="btn btn-sm" onclick="alert('计算机学院详情')">详情</button></td></tr>
+            <tr><td>🥈 2</td><td>电子信息学院</td><td>82</td><td>33</td><td>18</td><td>17</td><td>14</td><td><span style="color:#10b981">↑ +1</span></td><td><button class="btn btn-sm" onclick="alert('电子信息学院详情')">详情</button></td></tr>
+            <tr><td>🥉 3</td><td>生命科学学院</td><td>76</td><td>30</td><td>16</td><td>16</td><td>14</td><td><span style="color:#64748b">→ 0</span></td><td><button class="btn btn-sm" onclick="alert('生命科学学院详情')">详情</button></td></tr>
+            <tr><td>4</td><td>理学院</td><td>65</td><td>25</td><td>14</td><td>14</td><td>12</td><td><span style="color:#ef4444">↓ -2</span></td><td><button class="btn btn-sm" onclick="alert('理学院详情')">详情</button></td></tr>
+            <tr><td>5</td><td>材料与环境学院</td><td>52</td><td>18</td><td>10</td><td>12</td><td>12</td><td><span style="color:#ef4444">↓ -5</span></td><td><button class="btn btn-sm" onclick="alert('材料与环境学院详情')">详情</button></td></tr>
+          </table>
+          <div style="margin-top:12px;text-align:right">
+            <button class="btn" onclick="alert('全校绩效报表已生成，可前往报表中心下载')">导出全校报表</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="perf-radar" style="display:none">
+        <div class="table-wrap">
+          <h3>各学院绩效雷达图（示意）</h3>
+          <div style="text-align:center;padding:40px 0;color:#64748b">
+            <div style="font-size:48px;margin-bottom:12px">📊</div>
+            <div>各学院在"使用率/共享率/故障率/产出成果"四个维度的对比雷达图</div>
+            <div style="margin-top:12px"><button class="btn" onclick="alert('雷达图完整版将在正式版本中展示')">展开完整版</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Page: Purchase ===== -->
+    <div class="page" id="page-purchase">
+      <div class="section-title">🛒 购置决策辅助</div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="selectPurchTab(this,'form')">生成分析报告</div>
+        <div class="tab" onclick="selectPurchTab(this,'history')">历史报告</div>
+      </div>
+
+      <div id="purch-form">
+        <div class="table-wrap">
+          <h3>新建购置分析请求</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>申购仪器名称</label>
+              <input type="text" value="场发射扫描电镜（SEM）" onfocus="this.select()">
+            </div>
+            <div class="form-group">
+              <label>申购学院</label>
+              <select><option>材料与环境学院</option><option>电子信息学院</option><option>理学院</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>预估预算（万元）</label>
+              <input type="text" value="380">
+            </div>
+            <div class="form-group">
+              <label>使用场景简述</label>
+              <input type="text" value="材料表征与结构分析">
+            </div>
+          </div>
+          <div style="text-align:right;margin-top:8px">
+            <button class="btn" onclick="document.getElementById('purch-result').style.display='block';this.disabled=true;this.textContent='分析中...';setTimeout(()=>{this.textContent='报告已生成'},800)">生成分析报告</button>
+          </div>
+        </div>
+
+        <div id="purch-result" style="display:none">
+          <div class="report-card">
+            <h4>📋 购置分析报告</h4>
+            <div class="report-meta">生成时间：2026-07-08 | 申购：场发射扫描电镜（SEM） | 预算：380万元</div>
+            <table style="margin-bottom:12px;font-size:13px">
+              <tr><th>校内同类仪器</th><th>所属学院</th><th>使用率</th><th>闲置天数</th></tr>
+              <tr><td>SEM（S-4800）</td><td>电子信息学院</td><td>78%</td><td>3</td></tr>
+              <tr><td>SEM（JSM-IT800）</td><td>理学院</td><td>62%</td><td>18</td></tr>
+              <tr><td>SEM（SU8010）</td><td>材料与环境学院</td><td>22%</td><td>45</td></tr>
+            </table>
+            <div class="report-conclusion warn">⚠️ 不建议购置。理由：材环学院已有1台SEM闲置率78%，建议先评估该台仪器的共享使用方案，若利用率仍无法提升再考虑采购。</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="purch-history" style="display:none">
+        <div class="table-wrap">
+          <h3>历史分析报告</h3>
+          <table>
+            <tr><th>日期</th><th>申购仪器</th><th>申购学院</th><th>建议结果</th><th>操作</th></tr>
+            <tr><td>2026-06-15</td><td>液相色谱-质谱联用仪</td><td>生命科学学院</td><td><span class="badge badge-green">建议购置</span></td><td><button class="btn btn-sm" onclick="alert('查看报告')">查看</button></td></tr>
+            <tr><td>2026-05-20</td><td>X射线光电子能谱仪</td><td>理学院</td><td><span class="badge badge-yellow">建议调剂</span></td><td><button class="btn btn-sm" onclick="alert('查看报告')">查看</button></td></tr>
+            <tr><td>2026-04-08</td><td>ICP-MS</td><td>材环学院</td><td><span class="badge badge-red">不建议购置</span></td><td><button class="btn btn-sm" onclick="alert('查看报告')">查看</button></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Page: Insurance ===== -->
+    <div class="page" id="page-insurance">
+      <div class="section-title">🛡️ 健康保 - 健康评级报告</div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="selectInsTab(this,'list')">评级清单</div>
+        <div class="tab" onclick="selectInsTab(this,'report')">评级报告</div>
+      </div>
+
+      <div id="ins-list">
+        <div class="table-wrap">
+          <h3>2026年第二季度 仪器健康评级</h3>
+          <table>
+            <tr><th>仪器名称</th><th>学院</th><th>季度均分</th><th>评级</th><th>建议保费</th><th>操作</th></tr>
+            <tr><td>SEM扫描电镜</td><td>电子信息学院</td><td>88</td><td><span class="badge badge-green">A级</span></td><td>标准保费×0.85</td><td><button class="btn btn-sm" onclick="alert('查看健康评级详情')">详情</button></td></tr>
+            <tr><td>GPU集群</td><td>计算机学院</td><td>74</td><td><span class="badge badge-yellow">B级</span></td><td>标准保费</td><td><button class="btn btn-sm" onclick="alert('查看健康评级详情')">详情</button></td></tr>
+            <tr><td>XRD衍射仪</td><td>材料与环境学院</td><td>91</td><td><span class="badge badge-green">A级</span></td><td>标准保费×0.85</td><td><button class="btn btn-sm" onclick="alert('查看健康评级详情')">详情</button></td></tr>
+            <tr><td>核磁共振波谱仪</td><td>理学院</td><td>55</td><td><span class="badge badge-red">D级</span></td><td>建议暂缓承保</td><td><button class="btn btn-sm" onclick="alert('查看健康评级详情')">详情</button></td></tr>
+            <tr><td>流式细胞仪</td><td>生命科学学院</td><td>86</td><td><span class="badge badge-green">A级</span></td><td>标准保费×0.85</td><td><button class="btn btn-sm" onclick="alert('查看健康评级详情')">详情</button></td></tr>
+          </table>
+          <div style="margin-top:12px;text-align:right">
+            <button class="btn" onclick="alert('健康保投保清单已导出')">导出投保清单</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="ins-report" style="display:none">
+        <div class="table-wrap">
+          <h3>健康保试点评估报告</h3>
+          <div style="padding:20px;text-align:center;color:#64748b">
+            <div style="font-size:48px;margin-bottom:12px">📋</div>
+            <div>2026年第二季度健康保试点评估报告（PDF）</div>
+            <div style="margin-top:8px;font-size:12px">涵盖全校32台大仪的健康评级、保费建议、风险分析</div>
+            <div style="margin-top:16px"><button class="btn" onclick="alert('报告已生成，可在报表中心下载')">生成报告</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Page: Reports ===== -->
+    <div class="page" id="page-reports">
+      <div class="section-title">📄 报表中心</div>
+
+      <div class="table-wrap">
+        <h3>可导出的报表</h3>
+        <table>
+          <tr><th>报表名称</th><th>格式</th><th>更新频率</th><th>上次更新</th><th>操作</th></tr>
+          <tr><td>全校大仪状态总览</td><td>Excel</td><td>每日</td><td>2026-07-08</td><td><button class="btn btn-sm" onclick="alert('全校大仪状态总览已导出')">导出</button></td></tr>
+          <tr><td>学院绩效排名表</td><td>Excel</td><td>月度</td><td>2026-07-01</td><td><button class="btn btn-sm" onclick="alert('学院绩效排名表已导出')">导出</button></td></tr>
+          <tr><td>健康保评级清单</td><td>Excel</td><td>季度</td><td>2026-07-01</td><td><button class="btn btn-sm" onclick="alert('健康保评级清单已导出')">导出</button></td></tr>
+          <tr><td>购置建议报告</td><td>PDF</td><td>按需</td><td>2026-07-08</td><td><button class="btn btn-sm" onclick="alert('购置建议报告已导出')">导出</button></td></tr>
+          <tr><td>月度运行简报</td><td>PDF</td><td>每月</td><td>2026-07-01</td><td><button class="btn btn-sm" onclick="alert('月度运行简报已导出')">导出</button></td></tr>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <h3>预警统计</h3>
+        <table>
+          <tr><th>预警等级</th><th>本月数量</th><th>上月数量</th><th>变化</th></tr>
+          <tr><td><span class="badge badge-red">红色</span></td><td>2</td><td>3</td><td><span style="color:#10b981">↓ 减少1</span></td></tr>
+          <tr><td><span class="badge badge-yellow">黄色</span></td><td>5</td><td>4</td><td><span style="color:#ef4444">↑ 增加1</span></td></tr>
+          <tr><td><span class="badge badge-blue">蓝色</span></td><td>8</td><td>10</td><td><span style="color:#10b981">↓ 减少2</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Sidebar navigation
+document.querySelectorAll('.nav-item').forEach(item=>{
+  item.addEventListener('click',function(){
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'))
+    this.classList.add('active')
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+    document.getElementById('page-'+this.dataset.page).classList.add('active')
+  })
+})
+// Performance tabs
+function selectPerfTab(el,tab){
+  document.querySelectorAll('#page-performance .tab').forEach(t=>t.classList.remove('active'))
+  el.classList.add('active')
+  document.getElementById('perf-table').style.display=tab==='table'?'block':'none'
+  document.getElementById('perf-radar').style.display=tab==='radar'?'block':'none'
+}
+// Purchase tabs
+function selectPurchTab(el,tab){
+  document.querySelectorAll('#page-purchase .tab').forEach(t=>t.classList.remove('active'))
+  el.classList.add('active')
+  document.getElementById('purch-form').style.display=tab==='form'?'block':'none'
+  document.getElementById('purch-history').style.display=tab==='history'?'block':'none'
+}
+// Insurance tabs
+function selectInsTab(el,tab){
+  document.querySelectorAll('#page-insurance .tab').forEach(t=>t.classList.remove('active'))
+  el.classList.add('active')
+  document.getElementById('ins-list').style.display=tab==='list'?'block':'none'
+  document.getElementById('ins-report').style.display=tab==='report'?'block':'none'
+}
+</script>
+</body>
+</html>
